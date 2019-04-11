@@ -1,28 +1,48 @@
 class Api::V1::UsersController < ApplicationController
+	def show
+		user = User.find(params[:id])
 
-  before_action :find_user, only: [:update]
-  def index
-    @users = User.all
-    render json: @users
-  end
+		render json: user
+	end
 
-  def update
-    @user.update(user_params)
-    if @user.save
-      render json: @user, status: :accepted
-    else
-      render json: { errors: @user.errors.full_messages }, status: :unprocessible_entity
-    end
-  end
+	def create
+		user = User.new(
+			name: params[:name],
+			username: params[:username],
+			password: params[:password],
+			bio: Faker::Hipster.paragraph(2),
+		)
 
-  private
+		if user.save
+			# JWT.encode(payload, 'secret')
+			jwt = encode_token({user_id: user.id})
 
-  def user_params
-    params.permit(:title, :content)
-  end
 
-  def find_user
-    @user = User.find(params[:id])
-  end
+			render json: {user: UserSerializer.new(user), jwt: jwt}
+		else
+			render json: {errors: user.errors.full_messages}
+		end
+	end
 
+	# def add_balance
+	# 	user = User.find(params[:id])
+  #
+	# 	user.update(balance: user.balance+params[:balance].to_f)
+  #
+	# 	render json: user
+	# end
+
+	# def get_bot
+	# 	Bot.create({
+	# 			name: Resetter.generate_name,
+	# 			image_url: Faker::Avatar.image,
+	# 			price: (50..100).to_a.sample.to_f,
+	# 			for_sale: true,
+	# 			owner_id: params[:id]
+	# 	})
+  #
+	# 	user = User.find(params[:id])
+  #
+	# 	render json: user
+	# end
 end
