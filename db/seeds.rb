@@ -12,7 +12,7 @@ Client.delete_all
 Project.delete_all
 Assignment.delete_all
 
-admin = User.create(name: 'emily')
+admin = User.create(name: 'emily', username: 'emily', password_digest: 'pass')
 
 emily = Coder.create(name: 'emily seieroe', language: 'react')
 linya = Coder.create(name: 'linya hu', language: 'javascript')
@@ -40,6 +40,13 @@ gatewaykiosks = Project.create(name: 'kiosk replacements', user_id: admin.id, cl
 
 Assignment.create(name: 'emily-ccsm project', project_id: ccsm.id, coder_id: emily.id)
 Assignment.create(name: 'linya-ccsm project', project_id: ccsm.id, coder_id: linya.id)
-Assignment.create(name: 'leo-refactoring project', project_id: ccrefactor.id, coder_id: leo.id)
 Assignment.create(name: 'emily-kiosk replacements', project_id: gatewaykiosks.id, coder_id: emily.id)
+Assignment.create(name: 'leo-refactoring project', project_id: ccrefactor.id, coder_id: leo.id)
+Assignment.create(project_id: ccrefactor.id, coder_id: emily.id)
+Assignment.create(project_id: ccrefactor.id, coder_id: quinn.id)
+Assignment.create(project_id: ccrefactor.id, coder_id: katie.id)
+Assignment.create(project_id: redbullad.id, coder_id: quinn.id)
 Assignment.create(name: 'emily-load shedding agent', project_id: lsa.id, coder_id: emily.id)
+Assignment.create(project_id: lsa.id, coder_id: quinn.id)
+Assignment.create(project_id: lsa.id, coder_id: masha.id)
+Assignment.create(project_id: catransit.id, coder_id: quinn.id)
